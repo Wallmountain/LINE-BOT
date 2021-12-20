@@ -177,7 +177,7 @@ machine = TocMachine(
             "dest": "value_2week",
             "conditions": "is_going_to_value_2week",
         },
-        {"trigger": "go_back", "source": ["menu", "introduce", "bank", "value", "value_now", "show_value_n    ow", "value_recently", "value_3month", "show_value_3month", "value_2week", "show_val    ue_2week", "compare", "show_compare", "end"], "dest": "user"},
+        {"trigger": "go_back", "source": ["menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_2week", "show_value_2week", "compare", "show_compare", "end"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
