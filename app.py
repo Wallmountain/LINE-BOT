@@ -14,11 +14,17 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_2week", "show_value_2week", "compare", "show_compare", "end"],
+    states=["user", "start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_1month", "show_value_1month"],
     transitions=[
         {
             "trigger": "advance",
             "source": "user",
+            "dest": "start",
+            "conditions": "is_going_to_start",
+        },
+        {
+            "trigger": "advance",
+            "source": "start",
             "dest": "menu",
             "conditions": "is_going_to_menu",
         },
@@ -30,51 +36,15 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
-            "source": "menu",
-            "dest": "bank",
-            "conditions": "is_going_to_bank",
-        },
-        {
-            "trigger": "advance",
-            "source": "menu",
-            "dest": "compare",
-            "conditions": "is_going_to_compare",
-        },
-        {
-            "trigger": "advance",
-            "source": "menu",
-            "dest": "end",
-            "conditions": "is_going_to_end",
-        },
-        {
-            "trigger": "advance",
-            "source": "compare",
-            "dest": "end",
-            "conditions": "is_going_to_end",
-        },
-        {
-            "trigger": "advance",
-            "source": "compare",
+            "source": "introduce",
             "dest": "menu",
             "conditions": "is_going_to_menu",
         },
         {
             "trigger": "advance",
-            "source": "compare",
-            "dest": "show_compare",
-            "conditions": "is_going_to_show_compare",
-        },
-        {
-            "trigger": "advance",
-            "source": "show_compare",
-            "dest": "compare",
-            "conditions": "is_going_to_compare",
-        },
-        {
-            "trigger": "advance",
-            "source": "bank",
-            "dest": "end",
-            "conditions": "is_going_to_end",
+            "source": "menu",
+            "dest": "bank",
+            "conditions": "is_going_to_bank",
         },
         {
             "trigger": "advance",
@@ -109,8 +79,8 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "value",
-            "dest": "end",
-            "conditions": "is_going_to_end",
+            "dest": "menu",
+            "conditions": "is_going_to_menu",
         },
         {
             "trigger": "advance",
@@ -129,17 +99,12 @@ machine = TocMachine(
             "source": "value_now",
             "dest": "value",
             "conditions": "is_going_to_value",
-        },{
-            "trigger": "advance",
-            "source": "value_recently",
-            "dest": "value",
-            "conditions": "is_going_to_value",
         },
         {
             "trigger": "advance",
             "source": "value_recently",
-            "dest": "end",
-            "conditions": "is_going_to_end",
+            "dest": "value",
+            "conditions": "is_going_to_value",
         },
         {
             "trigger": "advance",
@@ -150,14 +115,26 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "value_recently",
-            "dest": "value_2week",
-            "conditions": "is_going_to_value_2week",
+            "dest": "value_1month",
+            "conditions": "is_going_to_value_1month",
         },
         {
             "trigger": "advance",
-            "source": "value_2week",
-            "dest": "show_value_2week",
-            "conditions": "is_going_to_show_value_2week",
+            "source": "value_3month",
+            "dest": "value_recently",
+            "conditions": "is_going_to_value_recently",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_1month",
+            "dest": "value_recently",
+            "conditions": "is_going_to_value_recently",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_1month",
+            "dest": "show_value_1month",
+            "conditions": "is_going_to_show_value_1month",
         },
         {
             "trigger": "advance",
@@ -173,11 +150,11 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
-            "source": "show_value_2week",
-            "dest": "value_2week",
-            "conditions": "is_going_to_value_2week",
+            "source": "show_value_1month",
+            "dest": "value_1month",
+            "conditions": "is_going_to_value_1month",
         },
-        {"trigger": "go_back", "source": ["menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_2week", "show_value_2week", "compare", "show_compare", "end"], "dest": "user"},
+        {"trigger": "go_back", "source": ["start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_1month", "show_value_1month"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
