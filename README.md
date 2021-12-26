@@ -7,20 +7,24 @@
 
 ### 功能
 
+#### start
 輸入 start 進入
 <p align=center>
     <img src="img/start.png">
 </p>
 
+#### main menu
 點選 main 進入主選單
 <p align=center>
     <img src="img/menu.png">
 </p>
 
+#### introduce
 點選 introduce 進入介紹，講解功能
 <p align=center>
     <img src="img/introduce.png">
 </p>
+#### select bank 
 點選 select bank 進入
 <p align=center>
     <img src="img/bank.png">
@@ -30,6 +34,8 @@
 <p align=center>
     <img src="img/value.png">
 </p>
+可選擇要顯示的模式 1. 顯示即時的匯率 2. 把歷史匯率畫成圖
+
 
 ### Prerequisite
 * Python 3.6
