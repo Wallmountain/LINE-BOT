@@ -9,7 +9,7 @@
 
 輸入 start 進入
 <p align=center>
-    <img src="img/start.png" width="400" height="566.6">
+    <img src="img/start.png">
 </p>
 
 ### Prerequisite
