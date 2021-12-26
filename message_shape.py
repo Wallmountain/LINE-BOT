@@ -701,22 +701,16 @@ show_value_3month = {
   "contents": [
     {
       "type": "bubble",
-      "header": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_3_movie.png",
-            "size": "full",
-            "aspectMode": "fit",
-            "action": {
-              "type": "uri",
-              "uri": "http://linecorp.com/"
-            },
-            "margin": "none"
-          }
-        ]
+      "hero": {
+        "type": "image",
+        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_3_movie.png",
+        "size": "full",
+        "aspectMode": "fit",
+        "action": {
+            "type": "uri",
+            "uri": "http://linecorp.com/"
+        },
+        "margin": "none"
       },
       "body": {
         "type": "box",

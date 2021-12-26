@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from datetime import datetime
 import pyimgur
+import numpy as np
 
 bank_url = {
         "台灣銀行" : "https://rate.bot.com.tw/"
@@ -34,28 +35,29 @@ def get_currency_3month(web_address, currency) :
     df = res[0].iloc[:,:6]
     currency = df
     currency.columns=[u"date", u"幣別",u"現金買入",u"現金賣出",u"即期買入",u"即期賣出"]
-    currency[u'幣別']=currency[u'幣別'].str.extract('\((\w+)\)')
-    currency['幣別'].replace(" ", "");
-    currency["date"]=datetime.now().strftime("%Y%m%d")
     currency = pd.DataFrame(data = currency)
-
-    columns = ['date', '現金買入', '現金賣出', '即期買入', '即期賣出']
+    currency.set_index('date', inplace=True)
+    columns = ['現金買入', '現金賣出', '即期買入', '即期賣出']
     result = currency.loc[:, columns]
-    result.set_index('date', inplace=True)
 
     font = FontProperties(fname=r'NotoSansTC-Medium.otf')
-    fig = plt.figure(figsize=(20,15), dpi=300)
-    ax = fig.add_subplot()
-    result.plot(
-            figsize = (20,15),
-            fontsize=20,
-            ax = ax,
+    fig, ax = plt.subplots(
+            figsize=(20,15)
             )
-    ax.set_xlabel('掛牌日期',fontsize=20, fontproperties = font)
-    ax.set_ylabel('匯率',fontsize=20, fontproperties = font)
-    ax.legend(prop=font)
-    fige = ax.get_figure()
-    fige.savefig('currency_3month.png', dpi = 300)
+    ax.plot(result.index, result['現金買入'], label = '現金買入')
+    ax.plot(result.index, result['現金賣出'], label = '現金賣出')
+    ax.plot(result.index, result['即期買入'], label = '即期買入')
+    ax.plot(result.index, result['即期賣出'], label = '即期賣出')
+    plt.legend(prop=font)
+    start, end = ax.get_xlim()
+    ax.xaxis.set_ticks(np.arange(start, end, 7))
+    ax.set_xlabel('掛牌日期',fontsize=40, fontproperties = font)
+    ax.set_ylabel('匯率',fontsize=40, fontproperties = font)
+    ax.xaxis.set_tick_params(rotation = 15, labelsize = 28)
+    ax.yaxis.set_tick_params(labelsize = 30)
+    ax.invert_xaxis()
+    ax.grid();
+    plt.savefig('currency_3month.png', dpi = 500)
 
     CLIENT_ID = "97b041216b56068"
     PATH = "currency_3month.png"
@@ -218,13 +220,13 @@ class TocMachine(GraphMachine):
     def on_enter_show_value_3month(self, event):
         global currency_type
         global bank
-        #currency = get_currency_3month(bank_url[bank], currency_type)
+        currency = get_currency_3month(bank_url[bank], currency_type)
         reply_token = event.reply_token
         message = message_shape.show_value_3month
 
-       # message["contents"][0]["header"]["contents"][2]["contents"][1]["text"] = bank
-       # message["contents"][0]["header"]["contents"][3]["contents"][1]["text"] = currency_type
-       # message["contents"][0]["header"]["contents"][0]["url"] = currency
+        message["contents"][0]["body"]["contents"][1]["contents"][1]["text"] = bank
+        message["contents"][0]["body"]["contents"][2]["contents"][1]["text"] = currency_type
+        message["contents"][0]["hero"]["url"] = currency
 
         message_to_reply = FlexSendMessage("go to show_value_3month", message)
         line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
@@ -232,7 +234,15 @@ class TocMachine(GraphMachine):
 
     def is_going_to_show_value_6month(self, event):
         text = event.message.text
-        return text.lower() == "go to show value 3month"
+        global currency_now
+        global currency_type
+        currency_type = text
+        i = 0
+        while currency_now["幣別"][i] != text :
+            i+=1
+            if(i == currency_now.shape[0]) :
+                return False
+        return True
 
     def is_going_to_value_6month(self, event):
         text = event.message.text
