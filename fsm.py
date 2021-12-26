@@ -12,17 +12,21 @@ from datetime import datetime
 import pyimgur
 import numpy as np
 
+bank_res = {
+        "台灣銀行" : 0
+        }
+
 bank_url = {
-        "台灣銀行" : "https://rate.bot.com.tw/"
+        "台灣銀行" : "https://rate.bot.com.tw/",
         }
 method_url = {
         "value_now" : "xrt?Lang=zh-TW",
         "value_3month" : "xrt/quote/ltm/",
         "value_6month" : "xrt/quote/l6m/"
         }
-def get_currency_now(web_address):
-    res = pd.read_html(web_address+method_url["value_now"])
-    df = res[0].iloc[:,:5]
+def get_currency_now(bank):
+    res = pd.read_html(bank_url[bank] + method_url["value_now"])
+    df = res[bank_res[bank]].iloc[:,:5]
     currency = df
     currency.columns=[u"幣別",u"現金買入",u"現金賣出",u"即期買入",u"即期賣出"]
     currency[u'幣別']=currency[u'幣別'].str.extract('\((\w+)\)')
@@ -30,8 +34,8 @@ def get_currency_now(web_address):
     currency = pd.DataFrame(data = currency)
     return currency
 
-def get_currency_3month(web_address, currency) :
-    res = pd.read_html(web_address+method_url["value_3month"]+currency)
+def get_currency_month(web_address, month, currency) :
+    res = pd.read_html(web_address+method_url[month]+currency)
     df = res[0].iloc[:,:6]
     currency = df
     currency.columns=[u"date", u"幣別",u"現金買入",u"現金賣出",u"即期買入",u"即期賣出"]
@@ -53,14 +57,14 @@ def get_currency_3month(web_address, currency) :
     ax.xaxis.set_ticks(np.arange(start, end, 7))
     ax.set_xlabel('掛牌日期',fontsize=40, fontproperties = font)
     ax.set_ylabel('匯率',fontsize=40, fontproperties = font)
-    ax.xaxis.set_tick_params(rotation = 15, labelsize = 28)
+    ax.xaxis.set_tick_params(rotation = 19, labelsize = 26)
     ax.yaxis.set_tick_params(labelsize = 30)
     ax.invert_xaxis()
     ax.grid();
-    plt.savefig('currency_3month.png', dpi = 500)
+    plt.savefig('currency_month.png', dpi = 500)
 
     CLIENT_ID = "97b041216b56068"
-    PATH = "currency_3month.png"
+    PATH = "currency_month.png"
     im = pyimgur.Imgur(CLIENT_ID)
     upload_image = im.upload_image(PATH, title="upload")
     return upload_image.link
@@ -131,7 +135,8 @@ class TocMachine(GraphMachine):
     def on_enter_value(self, event):
         global bank
         global currency_now
-        currency_now = get_currency_now(bank_url[bank])
+        currency_now = get_currency_now(bank)
+        print(currency_now.head(5))
         reply_token = event.reply_token
         message = message_shape.display_method
         message_to_reply = FlexSendMessage("go to select display method", message)
@@ -161,7 +166,7 @@ class TocMachine(GraphMachine):
         line_bot_api.reply_message(reply_token, message_to_reply)
 
     def is_going_to_show_value_now(self, event):
-        text = event.message.text
+        text = event.message.text.upper()
         global currency_now
         global currency_type
         currency_type = text
@@ -206,7 +211,7 @@ class TocMachine(GraphMachine):
         line_bot_api.reply_message(reply_token, message_to_reply)
 
     def is_going_to_show_value_3month(self, event):
-        text = event.message.text
+        text = event.message.text.upper()
         global currency_now
         global currency_type
         currency_type = text
@@ -220,7 +225,7 @@ class TocMachine(GraphMachine):
     def on_enter_show_value_3month(self, event):
         global currency_type
         global bank
-        currency = get_currency_3month(bank_url[bank], currency_type)
+        currency = get_currency_month(bank_url[bank], "value_3month", currency_type)
         reply_token = event.reply_token
         message = message_shape.show_value_3month
 
@@ -233,7 +238,7 @@ class TocMachine(GraphMachine):
         line_bot_api.reply_message(reply_token, message_to_reply)
 
     def is_going_to_show_value_6month(self, event):
-        text = event.message.text
+        text = event.message.text.upper()
         global currency_now
         global currency_type
         currency_type = text
@@ -243,6 +248,23 @@ class TocMachine(GraphMachine):
             if(i == currency_now.shape[0]) :
                 return False
         return True
+
+    def on_enter_show_value_6month(self, event):
+        global currency_type
+        global bank
+        currency = get_currency_month(bank_url[bank], 'value_6month', currency_type)
+        reply_token = event.reply_token
+        message = message_shape.show_value_3month
+
+        message["contents"][0]["body"]["contents"][0]["text"] = "six-month trend chart"
+        message["contents"][0]["body"]["contents"][1]["contents"][1]["text"] = bank
+        message["contents"][0]["body"]["contents"][2]["contents"][1]["text"] = currency_type
+        message["contents"][0]["hero"]["url"] = currency
+        message["contents"][0]["footer"]["contents"][0]["action"]["text"] = "value_6month"
+
+        message_to_reply = FlexSendMessage("go to show_value_6month", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
 
     def is_going_to_value_6month(self, event):
         text = event.message.text

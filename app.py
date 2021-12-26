@@ -116,7 +116,7 @@ machine = TocMachine(
             "trigger": "advance",
             "source": "value_recently",
             "dest": "value_6month",
-            "conditions": "is_going_to_value_1month",
+            "conditions": "is_going_to_value_6month",
         },
         {
             "trigger": "advance",
@@ -133,8 +133,8 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "value_6month",
-            "dest": "show_value_1month",
-            "conditions": "is_going_to_show_value_1month",
+            "dest": "show_value_6month",
+            "conditions": "is_going_to_show_value_6month",
         },
         {
             "trigger": "advance",
@@ -230,7 +230,11 @@ def webhook_handler():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Not Entering any State")
+            if event.message.text.lower() == 'restart':
+                send_text_message(event.reply_token, 'keyboard in "start" to start the function')
+                machine.go_back()
+            else :
+                send_text_message(event.reply_token, "Not Entering any State")
 
     return "OK"
 
@@ -239,7 +243,6 @@ def webhook_handler():
 def show_fsm():
     machine.get_graph().draw("fsm.png", prog="dot", format="png")
     return send_file("fsm.png", mimetype="image/png")
-
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", 8000)

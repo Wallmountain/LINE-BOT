@@ -188,7 +188,42 @@ introduce_box = {
               },
               {
                 "type": "text",
-                "text": "exchange rate",
+                "weight": "bold",
+                "margin": "sm",
+                "flex": 0,
+                "text": "show money exchange"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Show real time money exchange ",
+            "align": "end",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "text",
+            "text": "1. select bank",
+            "align": "end",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "text",
+            "text": "2. select Currency type",
+            "align": "end",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/restaurant_large_32.png"
+              },
+              {
+                "type": "text",
+                "text": "show run chart",
                 "weight": "bold",
                 "margin": "sm",
                 "flex": 0
@@ -196,18 +231,29 @@ introduce_box = {
             ]
           },
           {
-            "type": "box",
-            "layout": "baseline",
-            "contents": [
-              {
-                "type": "text",
-                "text": "choose bank and select Currency",
-                "size": "sm",
-                "color": "#aaaaaa",
-                "align": "end"
-              }
-            ]
+            "type": "text",
+            "text": "Observe the change of exchange",
+            "align": "end",
+            "color": "#aaaaaa"
           },
+          {
+            "type": "text",
+            "text": "1. select bank",
+            "align": "end",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "text",
+            "text": "2. select time interval",
+            "align": "end",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "text",
+            "text": "3. select Currency type",
+            "align": "end",
+            "color": "#aaaaaa"
+          }
         ]
       }
     ]
