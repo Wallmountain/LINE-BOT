@@ -12,6 +12,20 @@
     <img src="img/start.png">
 </p>
 
+點選 main 進入主選單
+<p align=center>
+    <img src="img/menu.png">
+</p>
+
+點選 introduce 進入介紹，講解功能
+<p align=center>
+    <img src="img/introduce.png">
+</p>
+點選 select bank 進入
+<p align=center>
+    <img src="img/bank.png">
+</p>
+
 ### Prerequisite
 * Python 3.6
 * Pipenv
