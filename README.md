@@ -1,17 +1,16 @@
-# TOC Project 2020
+# LINE-BOT
+> Theme : Currency and Exchange rate in bank
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
+## 介紹
+### 基本資訊
+名稱 : TODAYCOIN
 
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
+### 功能
 
-
-Template Code for TOC Project 2020
-
-A Line bot based on a finite state machine
-
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
-
-## Setup
+輸入 start 進入
+<p align=center>
+    <img src="img/start.png" width="400" height="566.6">
+</p>
 
 ### Prerequisite
 * Python 3.6
