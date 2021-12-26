@@ -56,6 +56,16 @@
     <img src="img/select_money_now_1.png">
 </p>
 
+## 結果顯示
+
+### 即時匯率
+<p align=center>
+    <img src="img/Currency_now.png">
+</p>
+<p align=center>
+    <img src="img/Currency_now_1.png">
+</p>
+
 ### Prerequisite
 * Python 3.6
 * Pipenv
