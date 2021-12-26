@@ -144,10 +144,6 @@ python3 app.py
 
 Or You can use [servo](http://serveo.net/) to expose local servers to the internet.
 
-
-## Finite State Machine
-![fsm](./img/show-fsm.png)
-
 ## Usage
 The initial state is set to `user`.
 
