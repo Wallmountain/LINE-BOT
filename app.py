@@ -14,7 +14,7 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_1month", "show_value_1month"],
+    states=["user", "start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_6month", "show_value_6month"],
     transitions=[
         {
             "trigger": "advance",
@@ -115,7 +115,7 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "value_recently",
-            "dest": "value_1month",
+            "dest": "value_6month",
             "conditions": "is_going_to_value_1month",
         },
         {
@@ -126,13 +126,13 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
-            "source": "value_1month",
+            "source": "value_6month",
             "dest": "value_recently",
             "conditions": "is_going_to_value_recently",
         },
         {
             "trigger": "advance",
-            "source": "value_1month",
+            "source": "value_6month",
             "dest": "show_value_1month",
             "conditions": "is_going_to_show_value_1month",
         },
@@ -150,11 +150,11 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
-            "source": "show_value_1month",
-            "dest": "value_1month",
-            "conditions": "is_going_to_value_1month",
+            "source": "show_value_6month",
+            "dest": "value_6month",
+            "conditions": "is_going_to_value_6month",
         },
-        {"trigger": "go_back", "source": ["start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_1month", "show_value_1month"], "dest": "user"},
+        {"trigger": "go_back", "source": ["start", "menu", "introduce", "bank", "value", "value_now", "show_value_now", "value_recently", "value_3month", "show_value_3month", "value_6month", "show_value_6month"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,

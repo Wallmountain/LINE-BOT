@@ -6,13 +6,18 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 from utils import send_text_message, send_button_message, send_image_message
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+from datetime import datetime
+import pyimgur
 
 bank_url = {
         "台灣銀行" : "https://rate.bot.com.tw/"
         }
 method_url = {
         "value_now" : "xrt?Lang=zh-TW",
-        "value_recently" : "xrt/quote/ltm"
+        "value_3month" : "xrt/quote/ltm/",
+        "value_6month" : "xrt/quote/l6m/"
         }
 def get_currency_now(web_address):
     res = pd.read_html(web_address+method_url["value_now"])
@@ -23,6 +28,41 @@ def get_currency_now(web_address):
     currency['幣別'].replace(" ", "");
     currency = pd.DataFrame(data = currency)
     return currency
+
+def get_currency_3month(web_address, currency) :
+    res = pd.read_html(web_address+method_url["value_3month"]+currency)
+    df = res[0].iloc[:,:6]
+    currency = df
+    currency.columns=[u"date", u"幣別",u"現金買入",u"現金賣出",u"即期買入",u"即期賣出"]
+    currency[u'幣別']=currency[u'幣別'].str.extract('\((\w+)\)')
+    currency['幣別'].replace(" ", "");
+    currency["date"]=datetime.now().strftime("%Y%m%d")
+    currency = pd.DataFrame(data = currency)
+
+    columns = ['date', '現金買入', '現金賣出', '即期買入', '即期賣出']
+    result = currency.loc[:, columns]
+    result.set_index('date', inplace=True)
+
+    font = FontProperties(fname=r'NotoSansTC-Medium.otf')
+    fig = plt.figure(figsize=(20,15), dpi=300)
+    ax = fig.add_subplot()
+    result.plot(
+            figsize = (20,15),
+            fontsize=20,
+            ax = ax,
+            )
+    ax.set_xlabel('掛牌日期',fontsize=20, fontproperties = font)
+    ax.set_ylabel('匯率',fontsize=20, fontproperties = font)
+    ax.legend(prop=font)
+    fige = ax.get_figure()
+    fige.savefig('currency_3month.png', dpi = 300)
+
+    CLIENT_ID = "97b041216b56068"
+    PATH = "currency_3month.png"
+    im = pyimgur.Imgur(CLIENT_ID)
+    upload_image = im.upload_image(PATH, title="upload")
+    return upload_image.link
+    
 
 class TocMachine(GraphMachine):
     bank = ''
@@ -163,22 +203,45 @@ class TocMachine(GraphMachine):
         line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
         line_bot_api.reply_message(reply_token, message_to_reply)
 
-    def is_going_to_show_value_1month(self, event):
-        text = event.message.text
-        return text.lower() == "go to show value 1month"
-
     def is_going_to_show_value_3month(self, event):
+        text = event.message.text
+        global currency_now
+        global currency_type
+        currency_type = text
+        i = 0
+        while currency_now["幣別"][i] != text :
+            i+=1
+            if(i == currency_now.shape[0]) :
+                return False
+        return True
+
+    def on_enter_show_value_3month(self, event):
+        global currency_type
+        global bank
+        #currency = get_currency_3month(bank_url[bank], currency_type)
+        reply_token = event.reply_token
+        message = message_shape.show_value_3month
+
+       # message["contents"][0]["header"]["contents"][2]["contents"][1]["text"] = bank
+       # message["contents"][0]["header"]["contents"][3]["contents"][1]["text"] = currency_type
+       # message["contents"][0]["header"]["contents"][0]["url"] = currency
+
+        message_to_reply = FlexSendMessage("go to show_value_3month", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
+
+    def is_going_to_show_value_6month(self, event):
         text = event.message.text
         return text.lower() == "go to show value 3month"
 
-    def is_going_to_value_1month(self, event):
+    def is_going_to_value_6month(self, event):
         text = event.message.text
-        return text.lower() == "value_1month"
+        return text.lower() == "value_6month"
 
-    def on_enter_value_1month(self, event):
+    def on_enter_value_6month(self, event):
         reply_token = event.reply_token
         message = message_shape.select_currency_value_recently
-        message_to_reply = FlexSendMessage("go to value_1month", message)
+        message_to_reply = FlexSendMessage("go to value_6month", message)
         line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
         line_bot_api.reply_message(reply_token, message_to_reply)
 

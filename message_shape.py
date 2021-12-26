@@ -143,45 +143,6 @@ main_menu = {
         ]
       }
     },
-    {
-      "type": "bubble",
-      "hero": {
-        "type": "image",
-        "url": "https://yourbasic.org/golang/scales.jpg",
-        "size": "full",
-        "aspectRatio": "20:13",
-        "aspectMode": "cover"
-      },
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "text",
-            "text": "compare exchange rate in banks",
-            "size": "xl",
-            "weight": "bold",
-            "wrap": True
-          }
-        ]
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "compare",
-              "text": "compare"
-            },
-            "style": "primary"
-          }
-        ]
-      }
-    }
   ]
 }
 introduce_box = {
@@ -247,62 +208,6 @@ introduce_box = {
               }
             ]
           },
-          {
-            "type": "box",
-            "layout": "baseline",
-            "contents": [
-              {
-                "type": "icon",
-                "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/restaurant_large_32.png"
-              },
-              {
-                "type": "text",
-                "text": "compare",
-                "weight": "bold",
-                "margin": "sm",
-                "flex": 0
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "baseline",
-            "contents": [
-              {
-                "type": "text",
-                "text": "enter and can choose time interval",
-                "size": "sm",
-                "color": "#aaaaaa",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "baseline",
-            "contents": [
-              {
-                "type": "text",
-                "text": "key in Currency",
-                "color": "#aaaaaa",
-                "size": "sm",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "baseline",
-            "contents": [
-              {
-                "type": "text",
-                "text": "show the lowest exchange rate in where",
-                "size": "sm",
-                "color": "#aaaaaa",
-                "align": "end"
-              }
-            ]
-          }
         ]
       }
     ]
@@ -703,8 +608,8 @@ value_recently = {
         "height": "sm",
         "action": {
           "type": "message",
-          "text": "value_1month",
-          "label": "1 month"
+          "text": "value_3month",
+          "label": "3 month"
         },
         "color": "#aabbff"
       },
@@ -714,8 +619,8 @@ value_recently = {
         "height": "sm",
         "action": {
           "type": "message",
-          "text": "value_3month",
-          "label": "3 month"
+          "text": "value_6month",
+          "label": "6 month"
         },
         "color": "#bbbbff"
       },
@@ -742,7 +647,7 @@ select_currency_value_recently = {
     "url": "https://cdn.corporatefinanceinstitute.com/assets/currency-1024x682.jpeg",
     "size": "full",
     "aspectRatio": "20:13",
-    "aspectMode": "cover",
+    "aspectMode": "fit",
     "action": {
       "type": "uri",
       "uri": "http://linecorp.com/"
@@ -789,4 +694,92 @@ select_currency_value_recently = {
     ],
     "flex": 0
   }
+}
+
+show_value_3month = {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_3_movie.png",
+            "size": "full",
+            "aspectMode": "fit",
+            "action": {
+              "type": "uri",
+              "uri": "http://linecorp.com/"
+            },
+            "margin": "none"
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "three-month trend chart",
+            "size": "xl",
+            "weight": "bold"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "bank"
+              },
+              {
+                "type": "text",
+                "text": "-",
+                "color": "#aaaaaa",
+                "align": "start"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "Currency type"
+              },
+              {
+                "type": "text",
+                "text": "-",
+                "color": "#aaaaaa",
+                "align": "start"
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "return select Currency type",
+              "text": "value_3month"
+            },
+            "style": "primary",
+            "height": "sm",
+            "color": "#aabbff"
+          }
+        ]
+      },
+      "size": "giga"
+    }
+  ]
 }
