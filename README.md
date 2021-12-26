@@ -2,10 +2,11 @@
 > Theme : Currency and Exchange rate in bank
 
 ## 介紹
+
 ### 基本資訊
 名稱 : TODAYCOIN
 
-### 功能
+## 功能
 
 ### start
 輸入 start 進入
@@ -64,6 +65,24 @@
 </p>
 <p align=center>
     <img src="img/Currency_now_1.png">
+</p>
+
+### 歷史匯率走勢圖
+<p align=center>
+    <img src="img/value_3month.png">
+</p>
+<p align=center>
+    <img src="img/value_3month_1.png">
+</p>
+<p align=center>
+    <img src="img/value_6month.png">
+</p>
+
+## 重新開始
+
+### 輸入 restart
+<p align=center>
+    <img src="img/restart.png">
 </p>
 
 ### Prerequisite
