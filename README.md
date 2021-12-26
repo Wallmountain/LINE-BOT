@@ -6,7 +6,10 @@
 ### 基本資訊
 名稱 : TODAYCOIN
 
-## 功能
+### FSM 流程圖
+<p align=center>
+    <img src="fsm.png">
+</p>
 
 ### start
 輸入 start 進入
