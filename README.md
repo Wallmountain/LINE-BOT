@@ -24,11 +24,13 @@
 <p align=center>
     <img src="img/introduce.png">
 </p>
-### select bank 
+
+### select bank
 點選 select bank 進入
 <p align=center>
     <img src="img/bank.png">
 </p>
+
 ### 選擇顯示模式
 這邊可輸入銀行名，進入下一個state
 | 點選button 回 menu
@@ -38,14 +40,17 @@
 可選擇要顯示的模式 1. 顯示即時的匯率 2. 把歷史匯率畫成圖
 
 #### 點選 Real-time Exchane rate
+
 #### 進入選擇貨幣
 <p align=center>
     <img src="img/select_money_now.png">
 </p>
+
 #### 點選 Run chart，進入選擇顯示區間
 <p align=center>
     <img src="img/time_interval.png">
 </p>
+
 #### 接著都進入，選擇貨幣
 <p align=center>
     <img src="img/select_money_now_1.png">
