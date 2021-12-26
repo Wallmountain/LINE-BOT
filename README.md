@@ -25,6 +25,11 @@
 <p align=center>
     <img src="img/bank.png">
 </p>
+這邊可輸入銀行名，進入下一個state
+| 點選button 回 menu
+<p align=center>
+    <img src="img/value.png">
+</p>
 
 ### Prerequisite
 * Python 3.6
